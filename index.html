@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>웹 명함 - E.LessYong</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    :root{
+      --bg: #0b1020;
+      --card: rgba(255,255,255,.08);
+      --card-2: rgba(255,255,255,.12);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.68);
+      --line: rgba(255,255,255,.18);
+
+      --accent1: #7c3aed; /* purple */
+      --accent2: #22c55e; /* green */
+      --accent3: #38bdf8; /* sky */
+      --shadow: 0 20px 60px rgba(0,0,0,.35);
+    }
+
+    *{ box-sizing: border-box; }
+    body{
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Apple SD Gothic Neo", "Noto Sans KR", Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(1200px 600px at 20% 10%, rgba(124,58,237,.35), transparent 60%),
+        radial-gradient(900px 500px at 90% 30%, rgba(56,189,248,.25), transparent 55%),
+        radial-gradient(900px 520px at 50% 95%, rgba(34,197,94,.20), transparent 60%),
+        var(--bg);
+      padding: 28px 16px;
+    }
+
+    .wrap{
+      width: min(980px, 100%);
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .card{
+      position: relative;
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
+      box-shadow: var(--shadow);
+      border-radius: 22px;
+      overflow: hidden;
+      padding: 22px;
+    }
+
+    .card::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background:
+        conic-gradient(from 180deg,
+          rgba(124,58,237,.0) 0%,
+          rgba(124,58,237,.35) 25%,
+          rgba(56,189,248,.25) 55%,
+          rgba(34,197,94,.25) 75%,
+          rgba(124,58,237,.0) 100%);
+      opacity: .55;
+      filter: blur(18px);
+      transform: translateY(-40px);
+      pointer-events: none;
+    }
+
+    .content{
+      position: relative;
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 18px;
+      align-items: center;
+    }
+
+    @media (max-width: 720px){
+      .content{
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+      .row{
+        justify-content: center !important;
+      }
+    }
+
+    .avatarBox{
+      display: grid;
+      place-items: center;
+      padding: 14px 10px;
+      border-radius: 18px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.14);
+    }
+
+    .avatar{
+      width: 190px;
+      height: 190px;
+      display: block;
+      filter: drop-shadow(0 16px 30px rgba(0,0,0,.35));
+      object-fit: contain; /* 이미지 찌그러짐 방지 */
+      object-position: center;
+      border-radius: 18px;
+    }
+
+    /* 얼굴(캐릭터) 미세 애니메이션 */
+    .floaty{
+      transform-origin: center;
+      animation: floaty 3.2s ease-in-out infinite;
+    }
+    @keyframes floaty{
+      0%,100%{ transform: translateY(0); }
+      50%{ transform: translateY(-6px); }
+    }
+
+    .meta{
+      display: grid;
+      gap: 10px;
+      align-items: start;
+    }
+
+    .tagRow{
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .pill{
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.07);
+      color: var(--muted);
+      font-size: 13px;
+      user-select: none;
+      backdrop-filter: blur(8px);
+    }
+
+    .dot{
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent3), var(--accent2));
+      box-shadow: 0 0 0 4px rgba(56,189,248,.12);
+    }
+
+    h1{
+      margin: 0;
+      font-size: 34px;
+      letter-spacing: -0.02em;
+      line-height: 1.08;
+    }
+
+    .job{
+      margin: 0;
+      font-size: 16px;
+      color: var(--muted);
+    }
+
+    .oneLine{
+      margin: 0;
+      font-size: 16px;
+      color: rgba(255,255,255,.82);
+      line-height: 1.45;
+    }
+
+    .divider{
+      height: 1px;
+      background: rgba(255,255,255,.14);
+      margin: 6px 0 2px;
+    }
+
+    .contacts{
+      display: grid;
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .row{
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-start;
+    }
+
+    .btn{
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.08);
+      color: rgba(255,255,255,.9);
+      border-radius: 14px;
+      padding: 12px 14px;
+      cursor: pointer;
+      display: inline-flex;
+      gap: 10px;
+      align-items: center;
+      user-select: none;
+      transition: transform .12s ease, background .12s ease, border-color .12s ease, box-shadow .12s ease;
+      font-size: 15px;
+      min-width: 240px;
+      justify-content: center;
+    }
+
+    .btn:active{ transform: scale(.99); }
+    .btn:hover{
+      background: rgba(255,255,255,.12);
+      border-color: rgba(255,255,255,.22);
+    }
+
+    /* YouTube 브랜드(빨간색) */
+    .btn.youtube{
+      border-color: rgba(239,68,68,.40);
+      background: rgba(239,68,68,.10);
+    }
+    .btn.youtube:hover{
+      background: linear-gradient(135deg, rgba(239,68,68,.65) 0%, rgba(239,68,68,.18) 55%, rgba(244,63,94,.30) 100%);
+      border-color: rgba(239,68,68,.85);
+      box-shadow: 0 18px 50px rgba(239,68,68,.18);
+    }
+
+    .ico{
+      width: 20px;
+      height: 20px;
+      opacity: .95;
+      flex: 0 0 auto;
+    }
+
+    .hint{
+      color: var(--muted);
+      font-size: 12.5px;
+      margin-top: 4px;
+    }
+
+    .toast{
+      position: absolute;
+      left: 50%;
+      bottom: 16px;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,.55);
+      border: 1px solid rgba(255,255,255,.16);
+      color: rgba(255,255,255,.95);
+      padding: 10px 14px;
+      border-radius: 999px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .18s ease, transform .18s ease;
+      backdrop-filter: blur(10px);
+    }
+    .toast.show{
+      opacity: 1;
+      transform: translateX(-50%) translateY(-4px);
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="card" aria-label="웹 명함">
+      <div class="content">
+        <div class="avatarBox">
+          <!-- 참고 사진 얼굴 -->
+          <img
+            class="avatar floaty"
+            src="C:\Users\c\.cursor\projects\c-Users-c-Desktop-card/assets/c__Users_c_AppData_Roaming_Cursor_User_workspaceStorage_53b7f2469cdf14bb9a354451cc23a3a9_images_image-f5e5535d-cec5-4fda-ad93-1763f81e29fa.png"
+            alt="E.LessYong 얼굴 캐릭터"
+          />
+        </div>
+
+        <div class="meta">
+          <div class="tagRow">
+            <span class="pill"><span class="dot"></span> Web Business Card</span>
+            <span class="pill">클릭해서 연락처 복사</span>
+          </div>
+
+          <h1 id="name">E.LessYong</h1>
+          <p class="job" id="job">자동화 시스템 개발 대표</p>
+          <p class="oneLine" id="tagline">반복업무 지겨우시죠? 자동화로 편리성과 시간을 얻으세요!</p>
+
+          <div class="divider"></div>
+
+          <div class="contacts">
+            <div class="row">
+              <button class="btn" type="button" data-copy="email" aria-label="이메일 복사">
+                <svg class="ico" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M4 6.5C4 5.67 4.67 5 5.5 5h13c.83 0 1.5.67 1.5 1.5v11c0 .83-.67 1.5-1.5 1.5h-13C4.67 19 4 18.33 4 17.5v-11Z" stroke="rgba(255,255,255,.9)" stroke-width="1.7"/>
+                  <path d="m5.3 7.4 6.1 5c.35.29.85.29 1.2 0l6.1-5" stroke="rgba(255,255,255,.9)" stroke-width="1.7" stroke-linecap="round"/>
+                </svg>
+                <span id="email">ELY@gapboo.com</span>
+              </button>
+
+              <button class="btn" type="button" data-copy="phone" aria-label="전화번호 복사">
+                <svg class="ico" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M7 3.8c.8-.8 2.1-.8 2.9 0l2 2c.8.8.8 2.1 0 2.9l-.7.7c-.3.3-.4.8-.2 1.2 1.2 2.5 3.3 4.6 5.8 5.8.4.2.9.1 1.2-.2l.7-.7c.8-.8 2.1-.8 2.9 0l2 2c.8.8.8 2.1 0 2.9l-1 1c-.9.9-2.2 1.2-3.4.8-4.1-1.4-8-4.6-11-7.6S4 9.3 2.6 5.2c-.4-1.2-.1-2.5.8-3.4l1-1Z"
+                        stroke="rgba(255,255,255,.9)" stroke-width="1.7" stroke-linejoin="round"/>
+                </svg>
+                <span id="phone">010-8992-2626</span>
+              </button>
+
+              <a class="btn" href="https://blog.naver.com/hn-fan" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn 링크 열기">
+                <svg class="ico" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M10.5 13.5a4 4 0 0 1 0-5.7l1.2-1.2a4 4 0 1 1 5.7 5.7l-1.2 1.2" stroke="rgba(255,255,255,.95)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M13.5 10.5a4 4 0 0 1 0 5.7l-1.2 1.2a4 4 0 1 1-5.7-5.7l1.2-1.2" stroke="rgba(255,255,255,.95)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>LinkedIn</span>
+              </a>
+
+              <a class="btn youtube" href="https://www.youtube.com/@FreeDDM" target="_blank" rel="noopener noreferrer" aria-label="유튜브 링크 열기">
+                <svg class="ico" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M10 8.5v7l6-3.5-6-3.5Z" fill="rgba(255,255,255,.95)"/>
+                  <path d="M21 12c0 4.2-.5 5.8-1.3 6.6-.8.8-2.4 1.3-6.7 1.3s-5.9-.5-6.7-1.3C5.5 17.8 5 16.2 5 12s.5-5.8 1.3-6.6C7.1 4.6 8.7 4 13 4s5.9.5 6.7 1.3C20.5 6.2 21 7.8 21 12Z"
+                        stroke="rgba(255,255,255,.95)" stroke-width="1.7" stroke-linejoin="round"/>
+                </svg>
+                <span>YouTube</span>
+              </a>
+            </div>
+
+            <div class="hint">
+              이메일/전화는 클릭하면 클립보드에 복사됩니다. LinkedIn/YouTube는 새 탭으로 열립니다.
+            </div>
+          </div>
+
+          <div class="qrArea" aria-label="QR 코드 섹션">
+            <div id="qrStatus" class="qrText">QR 생성 중...</div>
+            <div id="qr"></div>
+            <div class="qrText">스캔하면 연락처가 저장됩니다.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="toast" id="toast" role="status" aria-live="polite">복사됨</div>
+    </section>
+  </div>
+
+  <script src="./qrcode.min.js" defer></script>
+  <script src="script.js" defer></script>
+</body>
+</html>
